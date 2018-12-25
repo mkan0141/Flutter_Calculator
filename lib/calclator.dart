@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'syntacticAnalysis.dart';
 
 class Calclator extends StatefulWidget {
   @override
@@ -7,14 +8,30 @@ class Calclator extends StatefulWidget {
 
 class CalclatorState extends State<Calclator> {
   String _output = "0";
+  SyntacticAnalysis sa = new SyntacticAnalysis();
+  bool isOperand(String str){
+    String opr = str[str.length - 1];
+    print("opr => " + opr);
+    if(opr == '+' || opr == '−' || opr == '÷' || opr == '×') return true;
+    else return false;
+  }
 
   void buttonPressed(String status){
     String  output = "";
-    print(status);
+    print("status: " + status);
     if(status == "AC"){
       output = "0";
     }else if(_output == "0"){
       output = status;
+    }else if(isOperand(status)){
+      // print("operand " + status);
+      if(isOperand(_output)) {output = _output.substring(0, _output.length - 1) + status; print("debug: " + output);}
+      else output = _output + status; 
+    } else if(status == '='){
+      print('input =');
+      sa.setExpression(_output);
+      output = sa.expression().toString();
+      print("output: " + output);
     }else{
       output = _output + status;
     }
@@ -68,7 +85,7 @@ class CalclatorState extends State<Calclator> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 _button("AC", Colors.grey[300]), // using custom widget _button
-                 _button("+/-", Colors.grey[300]),
+                 _button("+/−", Colors.grey[300]),
                  _button("%", Colors.grey[300]),
                  _button("÷", Colors.lightBlueAccent[400]) 
               ],
@@ -88,7 +105,7 @@ class CalclatorState extends State<Calclator> {
                 _button("4", Colors.grey[800]), // using custom widget _button
                  _button("5", Colors.grey[800]),
                  _button("6", Colors.grey[800]),
-                 _button("-", Colors.lightBlueAccent[400]) 
+                 _button("−", Colors.lightBlueAccent[400]) 
               ],
             ),
             Row(
@@ -103,7 +120,7 @@ class CalclatorState extends State<Calclator> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                _button("0", Colors.grey[800]), // using custom widget _button
+                 _button("0", Colors.grey[800]), // using custom widget _button
                  _button("00", Colors.grey[800]),
                  _button(".", Colors.grey[800]),
                  _button("=", Colors.lightBlueAccent[400]) 
