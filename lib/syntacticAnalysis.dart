@@ -3,7 +3,16 @@ class SyntacticAnalysis {
   int _itr = 0;
 
   void setExpression(String state){
-    _state = state + "\$";
+    _state = stateShaping(state) + "\$";
+    _itr = 0;
+    print(_state);
+  }
+
+  String stateShaping(String state){
+    return state.replaceAll("÷", "/")
+                .replaceAll('×', '*')
+                .replaceAll('+', '+')
+                .replaceAll('−', '-');
   }
 
   bool isDigit(String s, int idx) {
@@ -62,6 +71,7 @@ class SyntacticAnalysis {
         break;
       }
     }
+    print("ret: " + ret.toString());
     return ret;
   }
 
@@ -76,4 +86,10 @@ class SyntacticAnalysis {
     }
     return ret;
   }
+}
+
+void main(){
+  SyntacticAnalysis sa = new SyntacticAnalysis();
+  sa.setExpression("78*6");
+  print(sa.expression());
 }
