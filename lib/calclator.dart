@@ -30,7 +30,12 @@ class CalclatorState extends State<Calclator> {
     } else if(status == '='){
       print('input =');
       sa.setExpression(_output);
-      output = sa.expression().toString();
+      double result = sa.expression();
+      if(result.toInt() - result == 0)
+        output = result.toInt().toString();
+      else
+        output = result.toString();
+      
       print("output: " + output);
     }else{
       output = _output + status;
