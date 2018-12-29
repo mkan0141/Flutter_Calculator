@@ -1,10 +1,12 @@
 class SyntacticAnalysis {
   String _state;
   int _itr = 0;
+  bool _is_divide_zero = false;
 
   void setExpression(String state){
     _state = stateShaping(state) + "\$";
     _itr = 0;
+    _is_divide_zero = false;
     print(_state);
   }
 
@@ -19,12 +21,36 @@ class SyntacticAnalysis {
     return (s.codeUnitAt(idx) ^ 0x30) <= 9;
   }
 
+  bool is_divide_zero(){
+    return _is_divide_zero;
+  }
+
+  double check_zero(double number){
+    if(number == 0) {
+      _is_divide_zero = true;
+      return 1;
+    }else{
+      return number;
+    }
+  }
+
+  double parsent(ret){
+    while(_state.substring(_itr, _itr + 1) == "%"){
+      _itr++;
+      ret /= 100;
+    }
+    return ret;
+  }
   double smallNumber(){
-    double ret = 0, dgt = 0.1;
+    if(_state.substring(_itr, _itr + 1) != ".") return 0.0;
+    _itr++;
+
+    double ret = 0.0, dgt = 0.1;
     while(isDigit(_state, _itr)){
       ret += (_state.codeUnitAt(_itr) ^ 0x30) * dgt;
       _itr++; dgt *= 0.1;
     }
+
     return ret;
   }
 
@@ -35,10 +61,8 @@ class SyntacticAnalysis {
       _itr++;
     }
     
-    if(_state.substring(_itr, _itr + 1) == ".") {
-      _itr++;
-      ret += smallNumber();
-    }
+    ret += smallNumber();
+    ret = parsent(ret);
     return ret;
   }
 
@@ -50,7 +74,7 @@ class SyntacticAnalysis {
         ret *= factor();
       }else if(_state.substring(_itr, _itr + 1) == "/"){
         _itr++;
-        ret /= factor();
+        ret /= check_zero(factor());
       }else{
         break;
       }
