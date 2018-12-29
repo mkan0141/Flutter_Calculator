@@ -8,7 +8,9 @@ class Calclator extends StatefulWidget {
 
 class CalclatorState extends State<Calclator> {
   String _output = "0";
+  bool _is_result = true;
   SyntacticAnalysis sa = new SyntacticAnalysis();
+  
   bool isOperand(String str){
     String opr = str[str.length - 1];
     print("opr => " + opr);
@@ -21,22 +23,24 @@ class CalclatorState extends State<Calclator> {
     print("status: " + status);
     if(status == "AC"){
       output = "0";
+    }else if(_is_result){
+      if(status.codeUnitAt(0) ^ 0x30 <= 9){
+        output = status;
+        _is_result = false;
+      }else return ;
     }else if(_output == "0"){
       output = status;
     }else if(isOperand(status)){
-      // print("operand " + status);
       if(isOperand(_output)) {output = _output.substring(0, _output.length - 1) + status; print("debug: " + output);}
       else output = _output + status; 
     } else if(status == '='){
-      print('input =');
+      _is_result = true;
       sa.setExpression(_output);
       double result = sa.expression();
       if(result.toInt() - result == 0)
         output = result.toInt().toString();
       else
         output = result.toString();
-      
-      print("output: " + output);
     }else{
       output = _output + status;
     }
