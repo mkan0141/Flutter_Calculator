@@ -37,13 +37,16 @@ class CalclatorState extends State<Calclator> {
       _is_result = true;
       sa.setExpression(_output);
       double result = sa.expression();
-      if(result.toInt() - result == 0)
+      if(result.toInt() - result == 0){
         output = result.toInt().toString();
-      else
+      }else{
         output = result.toString();
+      }
+      if(sa.is_divide_zero()) output = "ERROR";
     }else{
       output = _output + status;
     }
+
     setState(() {
       _output = output;
     });
