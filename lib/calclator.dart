@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+
+import 'util.dart';
 import 'syntacticAnalysis.dart';
 
 class Calclator extends StatefulWidget {
@@ -24,7 +26,7 @@ class CalclatorState extends State<Calclator> {
     if(status == "AC"){
       output = "0";
     }else if(_is_result){
-      if(status.codeUnitAt(0) ^ 0x30 <= 9){
+      if(isDigit(status, 0)){
         output = status;
         _is_result = false;
       }else return ;

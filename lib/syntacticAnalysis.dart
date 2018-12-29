@@ -1,3 +1,5 @@
+import 'util.dart';
+
 class SyntacticAnalysis {
   String _state;
   int _itr = 0;
@@ -15,10 +17,6 @@ class SyntacticAnalysis {
                 .replaceAll('×', '*')
                 .replaceAll('+', '+')
                 .replaceAll('−', '-');
-  }
-
-  bool isDigit(String s, int idx) {
-    return (s.codeUnitAt(idx) ^ 0x30) <= 9;
   }
 
   bool is_divide_zero(){
@@ -41,6 +39,7 @@ class SyntacticAnalysis {
     }
     return ret;
   }
+
   double smallNumber(){
     if(_state.substring(_itr, _itr + 1) != ".") return 0.0;
     _itr++;
