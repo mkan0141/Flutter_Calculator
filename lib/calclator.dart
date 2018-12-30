@@ -100,16 +100,16 @@ class CalclatorState extends State<Calclator> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                _button("AC", Colors.grey[300]), // using custom widget _button
-                 _button("+/−", Colors.grey[300]),
-                 _button("%", Colors.grey[300]),
+                 _button("AC", Colors.grey[300]), // using custom widget _button
+                 _button("(", Colors.grey[300]),
+                 _button(")", Colors.grey[300]),
                  _button("÷", Colors.lightBlueAccent[400]) 
               ],
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                _button("7", Colors.grey[800]), // using custom widget _button
+                 _button("7", Colors.grey[800]), // using custom widget _button
                  _button("8", Colors.grey[800]),
                  _button("9", Colors.grey[800]),
                  _button("×", Colors.lightBlueAccent[400]) 
@@ -127,7 +127,7 @@ class CalclatorState extends State<Calclator> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                _button("1", Colors.grey[800]), // using custom widget _button
+                 _button("1", Colors.grey[800]), // using custom widget _button
                  _button("2", Colors.grey[800]),
                  _button("3", Colors.grey[800]),
                  _button("+", Colors.lightBlueAccent[400]) 
@@ -137,7 +137,7 @@ class CalclatorState extends State<Calclator> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                  _button("0", Colors.grey[800]), // using custom widget _button
-                 _button("00", Colors.grey[800]),
+                 _button("%", Colors.grey[800]),
                  _button(".", Colors.grey[800]),
                  _button("=", Colors.lightBlueAccent[400]) 
               ],
