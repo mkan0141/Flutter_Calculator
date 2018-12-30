@@ -13,10 +13,15 @@ class SyntacticAnalysis {
   }
 
   String stateShaping(String state){
-    return state.replaceAll("÷", "/")
+    for(int i = 0; i < 10; i++){
+      String bef = i.toString() + "(", aft = i.toString() + "*(";
+      state = state.replaceAll(bef, aft);
+    }
+    return state = state.replaceAll("÷", "/")
                 .replaceAll('×', '*')
                 .replaceAll('+', '+')
-                .replaceAll('−', '-');
+                .replaceAll('−', '-')
+                .replaceAll(")(", ")*(");
   }
 
   bool is_divide_zero(){

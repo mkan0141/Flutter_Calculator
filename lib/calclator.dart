@@ -20,23 +20,43 @@ class CalclatorState extends State<Calclator> {
     else return false;
   }
 
+  int checkParentheses(String str){
+    int left = 0, right = 0;
+    for(int i = 0; i < str.length; i++){
+      if(str[i] == '(') left++;
+      if(str[i] == ')') right++;
+    }
+    return left - right;
+  }
+
   void buttonPressed(String status){
     String  output = "";
     print("status: " + status);
+
     if(status == "AC"){
+      _is_result = true;
       output = "0";
     }else if(_is_result){
-      if(isDigit(status, 0)){
+      if(isDigit(status, 0) || status[0] == '('){
         output = status;
         _is_result = false;
       }else return ;
-    }else if(_output == "0"){
+    }else if(_output == "0" && !_is_result){
+      _is_result = false;
       output = status;
     }else if(isOperand(status)){
       if(isOperand(_output)) {
         output = _output.substring(0, _output.length - 1) + status;
-      }else output = _output + status; 
-    } else if(status == '='){
+      }else {
+        print("debug: " +_output[_output.length - 1]  );
+        if(_output[_output.length - 1] == '(') return ;
+        output = _output + status; 
+      }
+    } else if(status == ')'){
+      if(checkParentheses(_output) > 0 && (isDigit(_output, _output.length - 1) || _output[_output.length - 1] == ')' ||_output[_output.length - 1] == '(')) output = _output + status; 
+      else output = _output;
+      }else if(status == '='){
+      if(checkParentheses(_output) != 0) return ;
       _is_result = true;
       sa.setExpression(_output);
       double result = sa.expression();
@@ -48,9 +68,10 @@ class CalclatorState extends State<Calclator> {
       if(sa.is_divide_zero()) output = "ERROR";
     }else{
       if(_output[_output.length - 1] == "%") return ;
+      if((status == "(" || status == ")") && checkParentheses(_output) < 0) return ;
       output = _output + status;
     }
-
+    
     setState(() {
       _output = output;
     });
