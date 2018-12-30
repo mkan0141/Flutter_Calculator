@@ -33,8 +33,9 @@ class CalclatorState extends State<Calclator> {
     }else if(_output == "0"){
       output = status;
     }else if(isOperand(status)){
-      if(isOperand(_output)) {output = _output.substring(0, _output.length - 1) + status; print("debug: " + output);}
-      else output = _output + status; 
+      if(isOperand(_output)) {
+        output = _output.substring(0, _output.length - 1) + status;
+      }else output = _output + status; 
     } else if(status == '='){
       _is_result = true;
       sa.setExpression(_output);
@@ -46,6 +47,7 @@ class CalclatorState extends State<Calclator> {
       }
       if(sa.is_divide_zero()) output = "ERROR";
     }else{
+      if(_output[_output.length - 1] == "%") return ;
       output = _output + status;
     }
 
@@ -116,7 +118,7 @@ class CalclatorState extends State<Calclator> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                _button("4", Colors.grey[800]), // using custom widget _button
+                 _button("4", Colors.grey[800]), // using custom widget _button
                  _button("5", Colors.grey[800]),
                  _button("6", Colors.grey[800]),
                  _button("−", Colors.lightBlueAccent[400]) 
